@@ -2,9 +2,9 @@
   "name": "Z Pinger",
   "short_name": "Z Pinger",
   "description": "A powerful network pinger tool, part of the Zentix ecosystem.",
-  "id": "/",
-  "start_url": "/",
-  "scope": "/",
+  "id": "/Hutch-pinger/",
+  "start_url": "/Hutch-pinger/",
+  "scope": "/Hutch-pinger/",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#07110b",
@@ -13,8 +13,6 @@
   "lang": "en",
   "dir": "ltr",
   "icons": [
-    { "src": "icon128.png", "sizes": "128x128", "type": "image/png", "purpose": "any" },
-    { "src": "icon192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
-    { "src": "icon512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+    { "src": "icon128.png", "sizes": "128x128", "type": "image/png", "purpose": "any" }
   ]
 }
