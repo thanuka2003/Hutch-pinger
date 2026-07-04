@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- skill:chrome -->
+<style>
+/* Credit line — bottom-right */
+.design-ui-credit {
+  position: fixed;
+  bottom: 12px;
+  right: 12px;
+  font: 11px/1 system-ui, sans-serif;
+  color: rgba(128,128,128,0.5);
+  pointer-events: none;
+  z-index: 2147483647;
+  transition: opacity 0.4s ease;
+  user-select: none;
+  letter-spacing: 0.02em;
+}
+
+/* Hide chrome on touch devices */
+@media (hover: none) {
+  .design-ui-credit { display: none; }
+}
+
+/* Print fixes */
+@media print {
+  * {
+    transition: none !important;
+    animation: none !important;
+    box-shadow: none !important;
+  }
+  body {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+  .design-ui-credit { display: none !important; }
+}
+
+</style>
+<script>
+(function () {
+    // Design-ui pages are single compositions, so the whole body is editable.
+    function markEditable() {
+        document.body.classList.add('artifact-editable');
+    }
+
+    // Credit badge with idle-fade. Hover devices only.
+    function initChromeUI() {
+        if (!matchMedia('(hover: hover)').matches) return;
+
+        var credit = document.createElement('div');
+        credit.className = 'design-ui-credit';
+        credit.setAttribute('aria-hidden', 'true');
+        credit.innerHTML = '\u{1F49C} by ClickUp Brain';
+        document.body.appendChild(credit);
+
+        var timer = null;
+        var fade = function (out) { credit.style.opacity = out ? '0' : ''; };
+        fade(true);
+        var show = function () {
+            fade(false);
+            clearTimeout(timer);
+            timer = setTimeout(function () { fade(true); }, 3000);
+        };
+        document.addEventListener('mousemove', show);
+        show();
+    }
+
+    function init() {
+        markEditable();
+        initChromeUI();
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+})();
+
+</script>
+<!-- /skill:chrome -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#07110b">
+<title>Z Pinger</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon128.png">
+<link rel="apple-touch-icon" href="icon128.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:        oklch(15% 0.02 152);
+    --surface-1: oklch(19% 0.024 152);
+    --surface-2: oklch(23% 0.028 152);
+    --surface-3: oklch(27% 0.03 152);
+    --line:      oklch(32% 0.03 152);
+    --text:      oklch(94% 0.012 152);
+    --text-dim:  oklch(74% 0.02 152);
+    --text-mute: oklch(58% 0.022 152);
+    --neon:      oklch(84% 0.20 152);
+    --neon-soft: oklch(72% 0.16 152);
+    --neon-deep: oklch(52% 0.13 152);
+    --amber:     oklch(82% 0.16 85);
+    --red:       oklch(68% 0.20 25);
+    --r-sm: 10px; --r-md: 16px; --r-lg: 22px;
+    --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 24px; --sp-6: 32px;
+    --ease-out: cubic-bezier(0.16,1,0.3,1);
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html,body{ height:100%; }
+  body{
+    background:
+      radial-gradient(120% 80% at 50% -10%, oklch(24% 0.05 152) 0%, transparent 55%),
+      var(--bg);
+    color:var(--text);
+    font-family:"Outfit", system-ui, sans-serif; font-weight:350; letter-spacing:0.01em;
+    display:flex; align-items:center; justify-content:center;
+    padding:env(safe-area-inset-top) var(--sp-4) var(--sp-4);
+    min-height:100dvh; -webkit-font-smoothing:antialiased;
+  }
+  .app{
+    width:100%; max-width:420px;
+    background:linear-gradient(180deg, var(--surface-1), var(--bg) 140%);
+    border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden;
+    box-shadow:0 30px 80px -30px oklch(0% 0 0 / 0.7);
+  }
+  header{ padding:var(--sp-5) var(--sp-5) var(--sp-4); }
+  .brand{ display:flex; align-items:center; gap:var(--sp-3); }
+  .mark{
+    width:44px; height:44px; border-radius:12px; display:grid; place-items:center;
+    background:radial-gradient(circle at 30% 25%, var(--surface-3), oklch(12% 0.02 152));
+    border:1px solid var(--neon-deep);
+    box-shadow:0 0 18px -4px var(--neon-soft), inset 0 0 10px -6px var(--neon);
+    font-family:"Orbitron",sans-serif; font-weight:900; font-size:24px;
+    color:var(--neon); text-shadow:0 0 10px var(--neon-soft); flex:none;
+  }
+  .brand h1{
+    font-family:"Orbitron",sans-serif; font-weight:700; font-size:1.55rem;
+    letter-spacing:0.14em; color:var(--neon);
+    text-shadow:0 0 14px oklch(84% 0.20 152 / 0.5); line-height:1;
+  }
+  .brand .sub{ font-size:0.66rem; letter-spacing:0.34em; color:var(--text-mute); text-transform:uppercase; margin-top:5px; }
+  .status{
+    margin-top:var(--sp-4); display:inline-flex; align-items:center; gap:var(--sp-2);
+    font-size:0.7rem; letter-spacing:0.16em; text-transform:uppercase; font-weight:600;
+    padding:7px 13px; border-radius:999px;
+    border:1px solid var(--line); background:var(--surface-2); color:var(--text-dim);
+    transition:color .3s var(--ease-out), border-color .3s var(--ease-out);
+  }
+  .status .dot{ width:8px; height:8px; border-radius:50%; background:var(--text-mute); transition:.3s var(--ease-out); }
+  .status[data-health="good"]{ color:var(--neon); border-color:var(--neon-deep); }
+  .status[data-health="good"] .dot{ background:var(--neon); box-shadow:0 0 10px var(--neon); }
+  .status[data-health="fair"]{ color:var(--amber); border-color:oklch(50% 0.1 85); }
+  .status[data-health="fair"] .dot{ background:var(--amber); box-shadow:0 0 10px var(--amber); }
+  .status[data-health="bad"]{ color:var(--red); border-color:oklch(45% 0.12 25); }
+  .status[data-health="bad"] .dot{ background:var(--red); box-shadow:0 0 10px var(--red); }
+  .stats{
+    margin-top:var(--sp-4); display:grid; grid-template-columns:1fr 1fr 1fr;
+    background:var(--surface-2); border:1px solid var(--line); border-radius:var(--r-md); overflow:hidden;
+  }
+  .stat{ padding:var(--sp-3) var(--sp-2); text-align:center; }
+  .stat + .stat{ border-left:1px solid var(--line); }
+  .stat .label{ font-size:0.6rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--text-mute); }
+  .stat .value{
+    font-family:"JetBrains Mono",monospace; font-size:1.5rem; font-weight:500;
+    margin-top:4px; font-variant-numeric:tabular-nums; color:var(--text);
+  }
+  .stat .value.ping{ color:var(--neon); }
+  .stat .value.drops[data-nonzero="true"]{ color:var(--red); }
+  .stat .unit{ font-size:0.7rem; color:var(--text-mute); margin-left:2px; }
+  main{ padding:0 var(--sp-5) var(--sp-5); }
+  .power-wrap{ display:grid; place-items:center; padding:var(--sp-6) 0 var(--sp-5); position:relative; }
+  .rings{ position:absolute; inset:0; display:grid; place-items:center; pointer-events:none; }
+  .ring{ position:absolute; border-radius:50%; border:1px solid var(--neon-deep); width:150px; height:150px; opacity:0; }
+  .app.running .ring{ animation:pulse 2.4s var(--ease-out) infinite; }
+  .app.running .ring:nth-child(2){ animation-delay:.8s; }
+  .app.running .ring:nth-child(3){ animation-delay:1.6s; }
+  @keyframes pulse{ 0%{ transform:scale(.65); opacity:.55; } 100%{ transform:scale(1.7); opacity:0; } }
+  .power{
+    position:relative; z-index:1; width:132px; height:132px; border-radius:50%;
+    border:1px solid var(--line);
+    background:radial-gradient(circle at 50% 35%, var(--surface-3), oklch(12% 0.02 152));
+    color:var(--text-mute); cursor:pointer; display:grid; place-items:center;
+    transition:.35s var(--ease-out); box-shadow:inset 0 0 30px -18px #000;
+  }
+  .power:hover{ transform:translateY(-2px); }
+  .power:focus-visible{ outline:3px solid var(--neon-soft); outline-offset:4px; }
+  .power svg{ width:52px; height:52px; transition:.35s var(--ease-out); }
+  .app.running .power{
+    color:var(--bg); border-color:var(--neon);
+    background:radial-gradient(circle at 50% 35%, var(--neon), var(--neon-deep));
+    box-shadow:0 0 45px -6px var(--neon-soft), inset 0 0 20px -10px oklch(100% 0 0 / .6);
+  }
+  .power-hint{ font-size:0.72rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--text-mute); }
+  .field{ margin-top:var(--sp-4); }
+  .field > label{ display:block; font-size:0.66rem; letter-spacing:0.16em; text-transform:uppercase; color:var(--text-mute); margin-bottom:var(--sp-2); }
+  select, .txt input{
+    width:100%; appearance:none; background:var(--surface-2); color:var(--text);
+    border:1px solid var(--line); border-radius:var(--r-sm); padding:12px 14px; font:inherit; font-size:0.92rem;
+    transition:.2s var(--ease-out); cursor:pointer;
+  }
+  select{
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2377c9a0' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat:no-repeat; background-position:right 14px center; padding-right:38px;
+  }
+  select:hover, .txt input:hover{ border-color:var(--neon-deep); }
+  select:focus-visible, .txt input:focus-visible{ outline:none; border-color:var(--neon); box-shadow:0 0 0 3px oklch(72% 0.16 152 / .18); }
+  .grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:var(--sp-3); }
+  .txt{ display:flex; gap:var(--sp-2); margin-top:var(--sp-2); }
+  .txt input{ cursor:text; }
+  .txt button{
+    flex:none; width:46px; border-radius:var(--r-sm);
+    border:1px solid var(--neon-deep); background:var(--surface-3); color:var(--neon);
+    font-size:1.1rem; cursor:pointer; transition:.2s var(--ease-out);
+  }
+  .txt button:hover{ background:var(--neon); color:var(--bg); }
+  .hidden{ display:none; }
+  .log-head{ display:flex; align-items:center; justify-content:space-between; margin:var(--sp-5) 0 var(--sp-2); }
+  .log-head span{ font-size:0.66rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--text-mute); }
+  .reset{
+    background:none; border:1px solid var(--line); color:var(--text-dim);
+    font:inherit; font-size:0.64rem; letter-spacing:0.12em; text-transform:uppercase;
+    padding:5px 11px; border-radius:999px; cursor:pointer; transition:.2s var(--ease-out);
+  }
+  .reset:hover{ border-color:var(--red); color:var(--red); }
+  .console{
+    background:oklch(11% 0.018 152); border:1px solid var(--line); border-radius:var(--r-sm);
+    height:150px; overflow-y:auto; padding:var(--sp-3);
+    font-family:"JetBrains Mono",monospace; font-size:0.74rem; line-height:1.7;
+    scrollbar-width:thin; scrollbar-color:var(--surface-3) transparent;
+  }
+  .console::-webkit-scrollbar{ width:6px; }
+  .console::-webkit-scrollbar-thumb{ background:var(--surface-3); border-radius:3px; }
+  .empty{ color:var(--text-mute); font-family:"Outfit",sans-serif; font-size:0.82rem; text-align:center; padding-top:48px; }
+  .row{ display:flex; gap:8px; padding:2px 0; animation:slideIn .35s var(--ease-out); }
+  @keyframes slideIn{ from{ opacity:0; transform:translateX(-6px);} to{ opacity:1; transform:none;} }
+  .row .t{ color:var(--text-mute); flex:none; }
+  .row.ok .m{ color:var(--neon-soft); }
+  .row.fair .m{ color:var(--amber); }
+  .row.bad .m{ color:var(--red); }
+  .row .m b{ font-weight:500; }
+  footer{ text-align:center; padding:var(--sp-4) 0 var(--sp-2); font-size:0.62rem; letter-spacing:0.1em; color:var(--text-mute); }
+</style>
+</head>
+<body>
+  <div class="app" id="app">
+    <header>
+      <div class="brand">
+        <div class="mark">Z</div>
+        <div>
+          <h1>Z PINGER</h1>
+          <div class="sub">Zentix Network Monitor</div>
+        </div>
+      </div>
+      <div class="status" id="status" data-health="off">
+        <span class="dot"></span><span id="statusText">Disconnected</span>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="label">Ping</div><div class="value ping"><span id="statPing">--</span><span class="unit">ms</span></div></div>
+        <div class="stat"><div class="label">Sent</div><div class="value" id="statSent">0</div></div>
+        <div class="stat"><div class="label">Drops</div><div class="value drops" id="statDrops" data-nonzero="false">0</div></div>
+      </div>
+    </header>
+    <main>
+      <div class="power-wrap">
+        <div class="rings"><div class="ring"></div><div class="ring"></div><div class="ring"></div></div>
+        <button class="power" id="power" aria-label="Toggle monitoring">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.56 5.44 15.11 6.89C16.84 7.94 18 9.83 18 12a6 6 0 0 1-12 0c0-2.17 1.16-4.06 2.88-5.12L7.44 5.44C5.18 7.17 3.6 9.92 3.6 13.06 3.6 17.7 7.36 21.46 12 21.46s8.4-3.76 8.4-8.4c0-3.14-1.58-5.89-3.84-7.62M11 3h2v10h-2z"/></svg>
+        </button>
+      </div>
+      <div style="text-align:center"><span class="power-hint" id="hint">Tap to start</span></div>
+      <div class="field">
+        <label for="target">Target Network</label>
+        <select id="target">
+          <option value="https://www.google.com">Google (Default)</option>
+          <option value="https://oneapp.hutch.lk">Hutch</option>
+          <option value="https://selfcare.dialog.lk">Dialog</option>
+          <option value="https://mas.mobitel.lk">Mobitel</option>
+          <option value="https://my.airtel.lk">Airtel</option>
+          <option value="custom">Custom URL</option>
+        </select>
+        <div class="txt hidden" id="customWrap">
+          <input type="text" id="customUrl" placeholder="https://example.com" inputmode="url">
+          <button id="saveUrl" aria-label="Save URL">✓</button>
+        </div>
+      </div>
+      <div class="field grid-2">
+        <div>
+          <label for="interval">Interval</label>
+          <select id="interval">
+            <option value="5">Every 5s</option><option value="10">Every 10s</option>
+            <option value="15" selected>Every 15s</option><option value="30">Every 30s</option>
+            <option value="60">Every 1 min</option>
+          </select>
+        </div>
+        <div>
+          <label for="timeout">Timeout</label>
+          <select id="timeout">
+            <option value="1000">1000 ms</option><option value="2000" selected>2000 ms</option><option value="4000">4000 ms</option>
+          </select>
+        </div>
+      </div>
+      <div class="log-head"><span>Log Console</span><button class="reset" id="reset">Reset</button></div>
+      <div class="console" id="console"><div class="empty">No pings yet. Hit the power button.</div></div>
+      <footer>© 2026 Zentix · Kalana Sahan Dillimuni</footer>
+    </main>
+  </div>
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const app = $('app');
+  const els = {
+    power:$('power'), hint:$('hint'), status:$('status'), statusText:$('statusText'),
+    ping:$('statPing'), sent:$('statSent'), drops:$('statDrops'),
+    target:$('target'), interval:$('interval'), timeout:$('timeout'),
+    customWrap:$('customWrap'), customUrl:$('customUrl'), saveUrl:$('saveUrl'),
+    console:$('console'), reset:$('reset')
+  };
+  let running = false, timer = null, sent = 0, drops = 0;
+  els.target.addEventListener('change', () => {
+    const custom = els.target.value === 'custom';
+    els.customWrap.classList.toggle('hidden', !custom);
+    if (custom) els.customUrl.focus();
+  });
+  els.saveUrl.addEventListener('click', () => { if (els.customUrl.value.trim()) log('ok', 'Custom target saved'); });
+  function targetUrl(){
+    if (els.target.value === 'custom') {
+      let u = els.customUrl.value.trim();
+      if (u && !/^https?:\/\//.test(u)) u = 'https://' + u;
+      return u || 'https://www.google.com';
+    }
+    return els.target.value;
+  }
+  async function ping(){
+    const url = targetUrl();
+    const ctrl = new AbortController();
+    const to = setTimeout(() => ctrl.abort(), +els.timeout.value);
+    const start = performance.now();
+    sent++;
+    try {
+      await fetch(url + '/favicon.ico?_=' + Date.now(), { mode:'no-cors', cache:'no-store', signal:ctrl.signal });
+      clearTimeout(to);
+      const ms = Math.round(performance.now() - start);
+      render(ms);
+      const band = ms < 120 ? 'ok' : ms < 350 ? 'fair' : 'bad';
+      const health = ms < 120 ? 'good' : ms < 350 ? 'fair' : 'bad';
+      setHealth(health, band === 'ok' ? 'Connected' : band === 'fair' ? 'Unstable' : 'High latency');
+      log(band, `reply from <b>${host(url)}</b> · <b>${ms} ms</b>`);
+    } catch {
+      clearTimeout(to); drops++; render('--');
+      setHealth('bad', 'Request timed out');
+      log('bad', `request to <b>${host(url)}</b> <b>timed out</b>`);
+    }
+  }
+  function host(u){ try { return new URL(u).host; } catch { return u; } }
+  function render(ms){
+    els.ping.textContent = ms; els.sent.textContent = sent; els.drops.textContent = drops;
+    els.drops.dataset.nonzero = drops > 0;
+  }
+  function setHealth(h, text){ els.status.dataset.health = h; els.statusText.textContent = text; }
+  function log(kind, msg){
+    const empty = els.console.querySelector('.empty'); if (empty) empty.remove();
+    const t = new Date().toLocaleTimeString('en-GB');
+    const row = document.createElement('div');
+    row.className = 'row ' + kind;
+    row.innerHTML = `<span class="t">${t}</span><span class="m">${msg}</span>`;
+    els.console.prepend(row);
+    while (els.console.children.length > 60) els.console.lastChild.remove();
+  }
+  function start(){
+    running = true; app.classList.add('running');
+    els.hint.textContent = 'Monitoring · tap to stop';
+    setHealth('fair', 'Connecting…');
+    log('ok', `monitor started → <b>${host(targetUrl())}</b>`);
+    ping(); timer = setInterval(ping, +els.interval.value * 1000);
+  }
+  function stop(){
+    running = false; app.classList.remove('running'); clearInterval(timer);
+    els.hint.textContent = 'Tap to start'; setHealth('off', 'Disconnected');
+    els.ping.textContent = '--'; log('fair', 'monitor stopped');
+  }
+  els.power.addEventListener('click', () => running ? stop() : start());
+  els.interval.addEventListener('change', () => { if (running){ clearInterval(timer); timer = setInterval(ping, +els.interval.value*1000); } });
+  els.reset.addEventListener('click', () => {
+    sent = 0; drops = 0; render('--');
+    els.console.innerHTML = '<div class="empty">Logs cleared.</div>';
+    if (running) setHealth('fair', 'Connecting…');
+  });
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
+})();
+</script>
+</body>
+</html>
